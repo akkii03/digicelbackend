@@ -1,0 +1,33 @@
+.mainScreen{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.choose{
+  font-size: larger;
+  font-weight: bold;
+}
+
+.btns{
+  margin-right: 20px;
+}
+.userScreen{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.options{
+  display: flex;
+  flex-direction: column;
+  border: 2px solid black;
+}
+.optionValue{
+  border: 1px dashed grey;
+  padding: 20px;
+}
+
+nav{
+padding-left: 900px;
+}
