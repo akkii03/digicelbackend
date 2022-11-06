@@ -41,7 +41,7 @@ export default function Admin() {
     console.log("thes ques is ",ques);
     
       axios
-      .post("http://localhost:8080/admin/addQues", { ques })
+      .post("https://digicelserver.herokuapp.com/admin/addQues", { ques })
       .then((res) => {
         console.log(res.data);
         setSuccess(true);

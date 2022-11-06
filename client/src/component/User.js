@@ -1,32 +1,42 @@
 import axios from "axios";
 import React, { useState } from "react";
-
+import ClipLoader from "react-spinners/ClipLoader";
 
 export default function User() {
   const [signup, setSignup] = useState(false);
   const [signin, setSignin] = useState(false);
   const [passNotsame, setPassNotSame] = useState(false);
-  const [msg,setMsg] = useState(false);
-  const [dberr,setDbErr] = useState(false);
-  const[err,setErr] = useState(false)
+  const [msg, setMsg] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [dberr, setDbErr] = useState(false);
+  const [err, setErr] = useState(false);
+  const [invalid, setInvalid] = useState(false);
   const [registerUser, setRegisterUser] = useState({
     name: "",
     email: "",
     password: "",
   });
 
-const [email,setEmail] = useState();
-const [password,setPassword] = useState();
+  const [email, setEmail] = useState();
+  const [password, setPassword] = useState();
 
-
-
-  function login (e) {
+  function login(e) {
     e.preventDefault();
-    axios.post('http://localhost:8080/login',{email,password})
-    .then(res=>{
-      sessionStorage.setItem('token',res.data.token) 
-      window.location.href= '/quiz'
-    });
+    setLoading(true);
+    axios
+      .post("https://digicelserver.herokuapp.com/login", { email, password })
+      .then((res) => {
+        console.log(res.data)
+        if (res.data.msg) {
+          setInvalid(false);
+          sessionStorage.setItem("token", res.data.token);
+          window.location.href = "/quiz";
+        } else {
+          setInvalid(true);
+        }
+
+        setLoading(false);
+      });
   }
 
   function check(e) {
@@ -46,22 +56,24 @@ const [password,setPassword] = useState();
 
   function registerEvent(e) {
     e.preventDefault();
-    axios.post('http://localhost:8080/register',{registerUser})
-    .then((res)=>{
-      if(res.data.msg) {
-        setMsg(res.data.msg)
-        setDbErr(false)
-        setErr(false)
-      }else{
-        setDbErr(res.data.err)
-        setMsg(false)
-        setErr(res.data.msg)
-      }
-    })
-    .catch(err=>{setErr(err.data.msg)
-      setMsg(false)
-      setDbErr(false)
-    });
+    axios
+      .post("https://digicelserver.herokuapp.com/register", { registerUser })
+      .then((res) => {
+        if (res.data.msg) {
+          setMsg(res.data.msg);
+          setDbErr(false);
+          setErr(false);
+        } else {
+          setDbErr(res.data.err);
+          setMsg(false);
+          setErr(res.data.msg);
+        }
+      })
+      .catch((err) => {
+        setErr(err.data.msg);
+        setMsg(false);
+        setDbErr(false);
+      });
   }
 
   return (
@@ -92,21 +104,21 @@ const [password,setPassword] = useState();
       {signup && (
         <div className="card">
           <h1>SIGN-UP here !</h1>
-          {
-            msg&&(<div class="alert alert-success" role="alert">
-            {msg}
-            </div>)
-          }
-          {
-            dberr&&(<div class="alert alert-danger" role="alert">
-            {dberr}
-            </div>)
-          }
-          {
-            err && (<div class="alert alert-danger" role="alert">
-             retry again registration fail due to error
-            </div>)
-          }
+          {msg && (
+            <div class="alert alert-success" role="alert">
+              {msg}
+            </div>
+          )}
+          {dberr && (
+            <div class="alert alert-danger" role="alert">
+              {dberr}
+            </div>
+          )}
+          {err && (
+            <div class="alert alert-danger" role="alert">
+              retry again registration fail due to error
+            </div>
+          )}
           <form onSubmit={registerEvent}>
             <div class="mb-3">
               <label for="exampleInputEmail1" class="form-label">
@@ -191,8 +203,10 @@ const [password,setPassword] = useState();
                   required
                   class="form-control"
                   id="exampleInputEmail1"
-                  name='email'
-                  onChange={(e)=>{setEmail(e.target.value)}}
+                  name="email"
+                  onChange={(e) => {
+                    setEmail(e.target.value);
+                  }}
                   aria-describedby="emailHelp"
                 />
                 <div id="emailHelp" class="form-text">
@@ -200,14 +214,14 @@ const [password,setPassword] = useState();
                 </div>
               </div>
               <div class="mb-3">
-                <label for="exampleInputPassword1" class="form-label" >
+                <label for="exampleInputPassword1" class="form-label">
                   Password
                 </label>
                 <input
                   type="password"
                   required
-                  name='password'
-                  onChange={(e)=>setPassword(e.target.value)}
+                  name="password"
+                  onChange={(e) => setPassword(e.target.value)}
                   class="form-control"
                   id="exampleInputPassword1"
                 />
@@ -222,9 +236,18 @@ const [password,setPassword] = useState();
                   Check me out
                 </label>
               </div>
-              <button type="submit" class="btn btn-primary">
-                LOGIN
-              </button>
+              {loading ? (
+                <ClipLoader aria-label="Loading Spinner" data-testid="loader" />
+              ) : (
+                <button type="submit" class="btn btn-primary">
+                  LOGIN
+                </button>
+              )}
+              {invalid && (
+                <div class="alert alert-danger" role="alert">
+                  sorry ! Your credentials are invalid 
+                </div>
+              )}
             </form>
           </div>
         </>
