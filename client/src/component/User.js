@@ -102,7 +102,7 @@ export default function User() {
       )}
 
       {signup && (
-        <div className="card">
+        <div className="container">
           <h1>SIGN-UP here !</h1>
           {msg && (
             <div class="alert alert-success" role="alert">
@@ -190,65 +190,67 @@ export default function User() {
 
       {signin && (
         <>
-          <div className="card">
+          <div className="container border">
+            <div className="row align-items-center">
             <h1>SiGN-IN here !</h1>
 
-            <form onSubmit={login}>
-              <div class="mb-3">
-                <label for="exampleInputEmail1" class="form-label">
-                  Email address
-                </label>
-                <input
-                  type="email"
-                  required
-                  class="form-control"
-                  id="exampleInputEmail1"
-                  name="email"
-                  onChange={(e) => {
-                    setEmail(e.target.value);
-                  }}
-                  aria-describedby="emailHelp"
-                />
-                <div id="emailHelp" class="form-text">
-                  We'll never share your email with anyone else.
-                </div>
-              </div>
-              <div class="mb-3">
-                <label for="exampleInputPassword1" class="form-label">
-                  Password
-                </label>
-                <input
-                  type="password"
-                  required
-                  name="password"
-                  onChange={(e) => setPassword(e.target.value)}
-                  class="form-control"
-                  id="exampleInputPassword1"
-                />
-              </div>
-              <div class="mb-3 form-check">
-                <input
-                  type="checkbox"
-                  class="form-check-input"
-                  id="exampleCheck1"
-                />
-                <label class="form-check-label" for="exampleCheck1">
-                  Check me out
-                </label>
-              </div>
-              {loading ? (
-                <ClipLoader aria-label="Loading Spinner" data-testid="loader" />
-              ) : (
-                <button type="submit" class="btn btn-primary">
-                  LOGIN
-                </button>
-              )}
-              {invalid && (
-                <div class="alert alert-danger" role="alert">
-                  sorry ! Your credentials are invalid 
-                </div>
-              )}
-            </form>
+<form onSubmit={login}>
+  <div class="mb-3">
+    <label for="exampleInputEmail1" class="form-label">
+      Email address
+    </label>
+    <input
+      type="email"
+      required
+      class="form-control"
+      id="exampleInputEmail1"
+      name="email"
+      onChange={(e) => {
+        setEmail(e.target.value);
+      }}
+      aria-describedby="emailHelp"
+    />
+    <div id="emailHelp" class="form-text">
+      We'll never share your email with anyone else.
+    </div>
+  </div>
+  <div class="mb-3">
+    <label for="exampleInputPassword1" class="form-label">
+      Password
+    </label>
+    <input
+      type="password"
+      required
+      name="password"
+      onChange={(e) => setPassword(e.target.value)}
+      class="form-control"
+      id="exampleInputPassword1"
+    />
+  </div>
+  <div class="mb-3 form-check">
+    <input
+      type="checkbox"
+      class="form-check-input"
+      id="exampleCheck1"
+    />
+    <label class="form-check-label" for="exampleCheck1">
+      Check me out
+    </label>
+  </div>
+  {loading ? (
+    <ClipLoader aria-label="Loading Spinner" data-testid="loader" />
+  ) : (
+    <button type="submit" class="btn btn-primary">
+      LOGIN
+    </button>
+  )}
+  {invalid && (
+    <div class="alert alert-danger" role="alert">
+      sorry ! Your credentials are invalid 
+    </div>
+  )}
+</form>
+            </div>
           </div>
         </>
       )}

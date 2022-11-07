@@ -31,3 +31,10 @@
 nav{
 padding-left: 900px;
 }
+
+@media screen and (max-width:577px) {
+ .container{
+  width: 50%;
+  margin-left: 326px;
+ }
+}
